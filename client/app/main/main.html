@@ -10,12 +10,28 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-lg-12">
-      <h1 class="page-header">Features:</h1>
-      <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6" ng-repeat="thing in awesomeThings">
-        <li><a href="#" tooltip="{{thing.info}}">{{thing.name}}</a></li>
-      </ul>
-    </div>
+      <div class="col-md-8">
+        Upload and convert your file, follow the steps below!
+      </div>
+      <!-- The Upload Form -->
+      <div class="col-md-8">
+          <div class="panel panel-default">
+              <div class="panel-heading">
+                  <h3 class="panel-title">Step 1: Upload The File</h3>
+              </div>
+              <div class="panel-body">
+                  <input class="bottom-marg-15" type="file" name="file" file></input>
+                  <!-- Progress Bar -->
+                  <div class="progress">
+                      <div class="progress-bar" role="progressbar" aria-valuenow="{{ uploadProgress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ uploadProgress }}%;">
+                          {{ uploadProgress == 0 ? '' : uploadProgress + '%' }}
+                      </div>
+                  </div>
+                  <a class="btn btn-primary btn-block btn-lg" ng-click="upload()">Upload</a>
+              </div>
+          </div>
+      </div>
+
   </div>
 </div>
 
