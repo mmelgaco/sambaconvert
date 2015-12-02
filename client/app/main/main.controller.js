@@ -5,8 +5,8 @@ angular.module('sambaconvertApp')
 
         $scope.creds = {
             bucket: 'sambaconvert',
-            access_key: 'AKIAJ2TWN4ETEQMASDZA',
-            secret_key: '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'
+            access_key: '',
+            secret_key: ''
         };
 
         $scope.upload = function() {
