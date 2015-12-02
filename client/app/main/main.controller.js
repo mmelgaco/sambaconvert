@@ -28,7 +28,7 @@ angular.module('sambaconvertApp')
                         return false;
                     }else {
                         // Success!
-                        alert('Upload Done. Location: '+data.Location);
+                        alert('Upload Done. ');
 
                         //var url = 'https://s3.amazonaws.com/' + $scope.creds.bucket + '/' + $scope.file.name;
                         console.log(data.Location);
@@ -61,9 +61,11 @@ angular.module('sambaconvertApp')
                 console.log(data);
                 alert('sucesso');
 
-                $scope.result = data;
-
-
+                setTimeout(function(){
+                    alert(data);
+                    $scope.result = data;
+                    $scope.$digest();
+                }, 2000);
 
             }).error(function(err) {
                 console.log(err);

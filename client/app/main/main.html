@@ -3,8 +3,8 @@
 <header class="hero-unit" id="banner">
   <div class="container">
     <h1>'Allo, 'Allo!</h1>
-    <p class="lead">Kick-start your next web app with Angular Fullstack</p>
-    <img src="assets/images/yeoman.png" alt="I'm Yeoman">
+    <p class="lead">SambaConvert - Uploads to S3 and converts a video for a web format</p>
+
   </div>
 </header>
 
@@ -26,7 +26,7 @@
                       <div class="progress-bar" role="progressbar" aria-valuenow="{{ uploadProgress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ uploadProgress }}%;">
                           {{ uploadProgress == 0 ? '' : uploadProgress + '%' }}
                       </div>
-                  </div>
+                  </div><i class="fa fa-spinner fa-spin" ></i>
                   <a class="btn btn-primary btn-block btn-lg" ng-click="upload()">Upload</a>
               </div>
           </div>
