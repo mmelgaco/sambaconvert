@@ -7,9 +7,16 @@ angular.module('sambaconvertApp', [
   'ui.router',
   'ui.bootstrap'
 ])
-  .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
+  .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $sceDelegateProvider) {
     $urlRouterProvider
       .otherwise('/');
+
+    $sceDelegateProvider.resourceUrlWhitelist([
+        // Allow same origin resource loads.
+        'self',
+        // Allow loading from our assets domain.  Notice the difference between * and **.
+        'https://zencoder-temp-storage-us-east-1.s3.amazonaws.com/**'
+    ]);
 
     $locationProvider.html5Mode(true);
     $httpProvider.interceptors.push('authInterceptor');
