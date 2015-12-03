@@ -26,7 +26,7 @@
                       <div class="progress-bar" role="progressbar" aria-valuenow="{{ uploadProgress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ uploadProgress }}%;">
                           {{ uploadProgress == 0 ? '' : uploadProgress + '%' }}
                       </div>
-                  </div><i class="fa fa-spinner fa-spin" ></i>
+                  </div>
                   <a class="btn btn-primary btn-block btn-lg" ng-click="upload()">Upload</a>
               </div>
           </div>
@@ -53,7 +53,15 @@
               </div>
               <div class="panel-body">
 
-                  <a ng-show="result" ng-href="{{result.encoded}}" target="_blank">Click here to watch the video</a>
+                  <div>
+                      <video ng-show="result" src="{{result.encoded}}" width="320" height="240" controls autoplay>
+                          Your browser does not support the video tag.
+                      </video>
+                  </div>
+
+                  <div>
+                      <a ng-show="result" ng-href="{{result.encoded}}" target="_blank">Click here to watch the video on a new window</a>
+                  </div>
 
               </div>
           </div>

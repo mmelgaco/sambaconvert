@@ -59,13 +59,11 @@ angular.module('sambaconvertApp')
                 url: $scope.fileUrl
             }).success(function(data) {
                 console.log(data);
-                alert('sucesso');
-
                 setTimeout(function(){
-                    alert(data);
+                    alert('convert sucess!');
                     $scope.result = data;
                     $scope.$digest();
-                }, 2000);
+                }, 5000);
 
             }).error(function(err) {
                 console.log(err);
