@@ -4,7 +4,9 @@ sambaconvert
 
 A sample application written using Node.js, AngularJS and the AWS JS SDK to demonstrate uploading files to AWS S3 and video encoding using Zencoder ( zencoder.com )
 
-[You can view a live demo of this application here](http://cheynewallace.github.io/angular-s3-upload)
+[You can view a live demo of this application here](http://52.32.80.140:9000/)
+
+It writes a document on mongodb after conversion successfully with the original url and the converted url.
 
 Main Required Libraries
 -------------------
