@@ -27,7 +27,7 @@
                           {{ uploadProgress == 0 ? '' : uploadProgress + '%' }}
                       </div>
                   </div>
-                  <a class="btn btn-primary btn-block btn-lg" ng-click="upload()">Upload</a>
+                  <a class="btn btn-primary btn-block btn-lg" ng-disabled="uploading" ng-click="upload()">{{uploading?'Uploading...':'Upload'}}</a>
               </div>
           </div>
       </div>
@@ -40,7 +40,7 @@
               </div>
               <div class="panel-body">
 
-                  <a class="btn btn-primary btn-block btn-lg" ng-click="convert()">Convert</a>
+                  <a class="btn btn-primary btn-block btn-lg" ng-disabled="converting" ng-click="convert()">{{converting?'Converting...':'Convert'}}</a>
               </div>
           </div>
       </div>

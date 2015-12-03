@@ -14,8 +14,8 @@ angular.module('sambaconvertApp')
             AWS.config.update({ accessKeyId: $scope.creds.access_key, secretAccessKey: $scope.creds.secret_key });
             //AWS.config.region = 'us-east-1';
             var bucket = new AWS.S3({ params: { Bucket: $scope.creds.bucket } });
-
             if($scope.file) {
+                $scope.uploading = true;
                 var params = { ACL: 'public-read', Key: $scope.file.name, ContentType: $scope.file.type, Body: $scope.file, ServerSideEncryption: 'AES256' };
 
                 var startTime = new Date().getTime();
@@ -25,6 +25,8 @@ angular.module('sambaconvertApp')
                     if(err) {
                         // There Was An Error With Your S3 Config
                         alert(err.message);
+                        $scope.uploading = false;
+                        $scope.$digest();
                         return false;
                     }else {
                         // Success!
@@ -34,6 +36,7 @@ angular.module('sambaconvertApp')
                         console.log(data.Location);
 
                         $scope.fileUrl = data.Location;
+
                     }
                 }).on('httpUploadProgress',function(progress) {
                     // Log Progress Information
@@ -55,19 +58,19 @@ angular.module('sambaconvertApp')
                 alert('No file uploaded!');
                 return;
             }
+            $scope.converting = true;
             $http.post('/api/converts', {
                 url: $scope.fileUrl
             }).success(function(data) {
                 console.log(data);
-                setTimeout(function(){
-                    alert('convert sucess!');
-                    $scope.result = data;
-                    $scope.$digest();
-                }, 5000);
-
+                alert('convert success!');
+                $scope.result = data;
             }).error(function(err) {
                 console.log(err);
                 alert('erro: '+err);
+            }).finally(function(){
+                $scope.converting = false;
+                $scope.$digest();
             });
 
         }

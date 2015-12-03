@@ -22,12 +22,43 @@ exports.show = function(req, res) {
   });
 };
 
-// Creates a new convert in the DB.
-exports.create = function(req, res) {
-  Convert.create(req.body, function(err, convert) {
-      if(err) { return handleError(res, err); }
+function checkOutputStatus(requestOptions, deferred, payload) {
+    request(requestOptions, function (err, response, body) {
+        if (err) {
+            console.log(err);
+            deferred.reject({
+                error: 500,
+                message: 'Error on zencoder status request'
+            });
+        } else {
+            console.log('job status code: %j', response.statusCode);
+            console.log('job response:\n%j', body);
+            if (response.statusCode == 200) {
 
-      var zencoderApiKey = '7870c34654cfa54298336295453548eb';
+                payload.output = JSON.parse(body);
+
+                //check if the output status = finished, only return after this
+                if (payload.output.state == 'finished') {
+                    deferred.resolve(payload);
+                } else {
+                    checkOutputStatus(requestOptions, deferred, payload);
+                }
+
+            } else {
+                console.log(body);
+                deferred.reject({
+                    error: 500,
+                    message: 'Wrong zencoder response'
+                });
+            }
+        }
+    });
+}
+exports.create = function(req, res) {
+    Convert.create(req.body, function(err, convert) {
+        if(err) { return handleError(res, err); }
+
+        var zencoderApiKey = '7870c34654cfa54298336295453548eb';
 
       var payload = {};
       Q.fcall(function() {
@@ -86,31 +117,9 @@ exports.create = function(req, res) {
               uri: 'https://app.zencoder.com/api/v2/outputs/'+payload.jobResults.outputs[0].id+'.json?api_key='+zencoderApiKey,
               method: 'GET'
           };
+          console.log(requestOptions);
 
-          request(requestOptions, function(err, response, body) {
-              if (err) {
-                  console.log(err);
-                  deferred.reject({
-                      error: 500,
-                      message: 'Error on zencoder status request'
-                  });
-              } else {
-                  console.log('job status code: %j', response.statusCode);
-                  console.log('job response:\n%j', body);
-                  if (response.statusCode == 200) {
-
-                      payload.output = JSON.parse(body);
-                      deferred.resolve(payload);
-
-                  } else {
-                      console.log(body);
-                      deferred.reject({
-                          error: 500,
-                          message: 'Wrong zencoder response'
-                      });
-                  }
-              }
-          });
+          checkOutputStatus(requestOptions, deferred, payload);
 
           return deferred.promise;
 
